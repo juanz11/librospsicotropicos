@@ -9,7 +9,8 @@ class Cliente extends Model
 {
     protected $fillable = [
         'nombre', 'rif', 'direccion', 'telefono',
-        'email', 'permiso_sanitario', 'activo',
+        'email', 'permiso_sanitario', 'sicm', 'activo',
+        'rif_archivo', 'factura_archivo', 'permiso_instalacion_archivo',
     ];
 
     protected $casts = [

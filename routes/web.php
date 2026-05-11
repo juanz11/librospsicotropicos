@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('despachos', DespachoController::class);
 
     // Catálogos
+    Route::get('/clientes/{cliente}/documento/{tipo}', [ClienteController::class, 'descargarDocumento'])->name('clientes.documento');
     Route::resource('clientes', ClienteController::class)->except(['show']);
     Route::resource('productos', ProductoController::class)->except(['show']);
 

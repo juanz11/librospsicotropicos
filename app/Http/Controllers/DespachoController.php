@@ -190,7 +190,7 @@ class DespachoController extends Controller
         $sheet->setTitle('Libro Psicotrópicos');
 
         // Título
-        $sheet->mergeCells('A1:J1');
+        $sheet->mergeCells('A1:N1');
         $sheet->setCellValue('A1', 'LIBRO DE CONTROL DE PSICOTRÓPICOS — ' . config('app.name'));
         $sheet->getStyle('A1')->applyFromArray([
             'font'      => ['bold' => true, 'size' => 14, 'color' => ['rgb' => 'FFFFFF']],
@@ -200,12 +200,27 @@ class DespachoController extends Controller
         $sheet->getRowDimension(1)->setRowHeight(28);
 
         // Cabeceras
-        $headers = ['N° Factura', 'Fecha', 'Cliente', 'RIF', 'Producto', 'Concentración', 'Presentación', 'Lote', 'Cantidad', 'Vencimiento', 'Estado'];
+        $headers = [
+            'FECHA',
+            'LOTE',
+            'PRINCIPIO ACTIVO',
+            'MARCA',
+            'MG',
+            'COMP.',
+            'DESCRIPCIÓN',
+            'Columna2',
+            'Columna1',
+            'Columna12',
+            'SALDO ANTERIOR',
+            'ENTRADA',
+            'SALIDA',
+            'SALDO',
+        ];
         foreach ($headers as $i => $h) {
             $col = chr(65 + $i);
             $sheet->setCellValue("{$col}2", $h);
         }
-        $sheet->getStyle('A2:K2')->applyFromArray([
+        $sheet->getStyle('A2:N2')->applyFromArray([
             'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '6366F1']],
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
@@ -213,22 +228,38 @@ class DespachoController extends Controller
         ]);
 
         $row = 3;
+        $saldo = 0;
+        $sicmPropio = 'SICM 17774';
         foreach ($despachos as $d) {
             foreach ($d->items as $item) {
-                $sheet->setCellValue("A{$row}", $d->numero_factura);
-                $sheet->setCellValue("B{$row}", $d->fecha->format('d/m/Y'));
-                $sheet->setCellValue("C{$row}", $d->cliente->nombre);
-                $sheet->setCellValue("D{$row}", $d->cliente->rif);
-                $sheet->setCellValue("E{$row}", $item->producto->nombre);
-                $sheet->setCellValue("F{$row}", $item->producto->concentracion);
-                $sheet->setCellValue("G{$row}", $item->producto->presentacion);
-                $sheet->setCellValue("H{$row}", $item->lote);
-                $sheet->setCellValue("I{$row}", $item->cantidad);
-                $sheet->setCellValue("J{$row}", $item->fecha_vencimiento->format('d/m/Y'));
-                $sheet->setCellValue("K{$row}", ucfirst($d->estado));
+                $saldoAnterior = (int) $item->cantidad;
+                $entrada = 0;
+                $salida = 0;
+                $saldo = $saldo + $saldoAnterior;
+
+                $registroSanitario = $item->producto->registro_sanitario;
+                $descripcion = 'FACTURA ' . $d->numero_factura;
+                if (!empty($registroSanitario)) {
+                    $descripcion .= '; ' . $registroSanitario;
+                }
+
+                $sheet->setCellValue("A{$row}", $d->fecha->format('d/m/Y'));
+                $sheet->setCellValue("B{$row}", $item->lote);
+                $sheet->setCellValue("C{$row}", $item->producto->principio_activo);
+                $sheet->setCellValue("D{$row}", $item->producto->nombre);
+                $sheet->setCellValue("E{$row}", $item->producto->concentracion);
+                $sheet->setCellValue("F{$row}", $item->producto->presentacion);
+                $sheet->setCellValue("G{$row}", $descripcion);
+                $sheet->setCellValue("H{$row}", $d->cliente->nombre);
+                $sheet->setCellValue("I{$row}", $sicmPropio);
+                $sheet->setCellValue("J{$row}", $d->cliente->sicm ?? '');
+                $sheet->setCellValue("K{$row}", $saldoAnterior);
+                $sheet->setCellValue("L{$row}", $entrada);
+                $sheet->setCellValue("M{$row}", $salida);
+                $sheet->setCellValue("N{$row}", $saldo);
 
                 if ($row % 2 === 0) {
-                    $sheet->getStyle("A{$row}:K{$row}")->applyFromArray([
+                    $sheet->getStyle("A{$row}:N{$row}")->applyFromArray([
                         'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'EEF2FF']],
                     ]);
                 }
@@ -236,7 +267,7 @@ class DespachoController extends Controller
             }
         }
 
-        foreach (range('A', 'K') as $col) {
+        foreach (range('A', 'N') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 

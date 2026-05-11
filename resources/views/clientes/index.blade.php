@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'Farmacias')
+@section('title', 'Clientes')
 
 @section('content')
 <div class="page-header">
-    <h1>Farmacias (Clientes)</h1>
-    <a href="{{ route('clientes.create') }}" class="btn btn-primary btn-sm">+ Nueva Farmacia</a>
+    <h1>Clientes</h1>
+    <a href="{{ route('clientes.create') }}" class="btn btn-primary btn-sm">+ Nuevo Cliente</a>
 </div>
 
 <div class="card" style="margin-bottom:1rem;">
@@ -24,7 +24,7 @@
     <div class="table-wrap">
         <table>
             <thead>
-                <tr><th>Nombre</th><th>RIF</th><th>Teléfono</th><th>Permiso Sanitario</th><th>Estado</th><th>Acciones</th></tr>
+                <tr><th>Nombre</th><th>RIF</th><th>Teléfono</th><th>Permiso Sanitario</th><th>Documentos</th><th>Estado</th><th>Acciones</th></tr>
             </thead>
             <tbody>
                 @forelse($clientes as $c)
@@ -34,6 +34,22 @@
                     <td>{{ $c->telefono ?? '—' }}</td>
                     <td>{{ $c->permiso_sanitario ?? '—' }}</td>
                     <td>
+                        <div class="flex gap-2">
+                            @if($c->rif_archivo)
+                                <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$c, 'rif']) }}">RIF</a>
+                            @endif
+                            @if($c->factura_archivo)
+                                <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$c, 'factura']) }}">Factura</a>
+                            @endif
+                            @if($c->permiso_instalacion_archivo)
+                                <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$c, 'permiso_instalacion']) }}">Permiso</a>
+                            @endif
+                            @if(!$c->rif_archivo && !$c->factura_archivo && !$c->permiso_instalacion_archivo)
+                                —
+                            @endif
+                        </div>
+                    </td>
+                    <td>
                         <span class="badge {{ $c->activo ? 'badge-success' : 'badge-danger' }}">
                             {{ $c->activo ? 'Activo' : 'Inactivo' }}
                         </span>
@@ -42,7 +58,7 @@
                         <div class="flex gap-2">
                             <a href="{{ route('clientes.edit', $c) }}" class="btn btn-secondary btn-sm">Editar</a>
                             <form method="POST" action="{{ route('clientes.destroy', $c) }}"
-                                onsubmit="return confirm('¿Eliminar esta farmacia?')">
+                                onsubmit="return confirm('¿Eliminar este cliente?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
@@ -50,7 +66,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem;">Sin farmacias registradas.</td></tr>
+                <tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:2rem;">Sin clientes registrados.</td></tr>
                 @endforelse
             </tbody>
         </table>
