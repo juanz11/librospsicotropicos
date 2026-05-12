@@ -24,7 +24,7 @@
     <div class="table-wrap">
         <table>
             <thead>
-                <tr><th>Nombre</th><th>RIF</th><th>Teléfono</th><th>Permiso Sanitario</th><th>Documentos</th><th>Estado</th><th>Acciones</th></tr>
+                <tr><th>Nombre</th><th>RIF</th><th>Teléfono</th><th>Documentos</th><th>Estado</th><th>Acciones</th></tr>
             </thead>
             <tbody>
                 @forelse($clientes as $c)
@@ -32,7 +32,6 @@
                     <td><strong>{{ $c->nombre }}</strong></td>
                     <td>{{ $c->rif }}</td>
                     <td>{{ $c->telefono ?? '—' }}</td>
-                    <td>{{ $c->permiso_sanitario ?? '—' }}</td>
                     <td>
                         <div class="flex gap-2">
                             @if($c->rif_archivo)
@@ -66,7 +65,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:2rem;">Sin clientes registrados.</td></tr>
+                <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem;">Sin clientes registrados.</td></tr>
                 @endforelse
             </tbody>
         </table>

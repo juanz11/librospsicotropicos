@@ -32,10 +32,6 @@
                 <label class="form-label">Email</label>
                 <input type="email" name="email" value="{{ old('email') }}" class="form-control">
             </div>
-            <div class="form-group">
-                <label class="form-label">Permiso Sanitario</label>
-                <input type="text" name="permiso_sanitario" value="{{ old('permiso_sanitario') }}" class="form-control" placeholder="PS-2024-001">
-            </div>
 
             <div class="form-group">
                 <label class="form-label">SICM</label>
