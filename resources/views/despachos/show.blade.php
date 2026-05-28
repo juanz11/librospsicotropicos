@@ -49,7 +49,7 @@
                     ['RIF',       $despacho->cliente->rif],
                     ['Dirección', $despacho->cliente->direccion ?? '—'],
                     ['Teléfono',  $despacho->cliente->telefono ?? '—'],
-                    ['Permiso',   $despacho->cliente->permiso_sanitario ?? '—'],
+                    ['SICM',      $despacho->cliente->sicm ?? '—'],
                 ] as [$label, $val])
                 <tr style="border-bottom:1px solid #f1f5f9;">
                     <td style="padding:.5rem .25rem;font-weight:600;color:#64748b;width:40%;">{{ $label }}</td>
@@ -93,7 +93,6 @@
                     <th>Presentación</th>
                     <th>Lote</th>
                     <th>Cantidad</th>
-                    <th>Vencimiento</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,14 +103,6 @@
                     <td>{{ $item->producto->presentacion }}</td>
                     <td>{{ $item->lote }}</td>
                     <td>{{ $item->cantidad }}</td>
-                    <td>
-                        {{ $item->fecha_vencimiento->format('d/m/Y') }}
-                        @if($item->fecha_vencimiento->isPast())
-                            <span class="badge badge-danger">Vencido</span>
-                        @elseif($item->fecha_vencimiento->diffInDays(now()) <= 90)
-                            <span class="badge badge-warning">Próximo</span>
-                        @endif
-                    </td>
                 </tr>
                 @endforeach
             </tbody>

@@ -96,7 +96,6 @@
                         <th style="min-width:100px;">Concentración</th>
                         <th style="min-width:120px;">Lote <span style="color:red">*</span></th>
                         <th style="min-width:90px;">Cantidad <span style="color:red">*</span></th>
-                        <th style="min-width:140px;">Vencimiento <span style="color:red">*</span></th>
                         <th style="width:50px;"></th>
                     </tr>
                 </thead>
@@ -143,11 +142,6 @@
                                 class="form-control {{ $errors->has("items.$i.cantidad") ? 'is-invalid' : '' }}"
                                 value="{{ $item['cantidad'] ?? '' }}"
                                 min="1" placeholder="0">
-                        </td>
-                        <td>
-                            <input type="date" name="items[{{ $i }}][fecha_vencimiento]"
-                                class="form-control {{ $errors->has("items.$i.fecha_vencimiento") ? 'is-invalid' : '' }}"
-                                value="{{ $item['fecha_vencimiento'] ?? '' }}">
                         </td>
                         <td>
                             <button type="button" class="btn-remove-row" title="Eliminar fila">✕</button>
@@ -227,7 +221,6 @@ document.getElementById('btn-add-row').addEventListener('click', function () {
         <td><input type="text" name="items[${rowIndex}][concentracion_display]" class="form-control concentracion-field" readonly placeholder="Auto"></td>
         <td><input type="text" name="items[${rowIndex}][lote]" class="form-control" placeholder="L2024001"></td>
         <td><input type="number" name="items[${rowIndex}][cantidad]" class="form-control" min="1" placeholder="0"></td>
-        <td><input type="date" name="items[${rowIndex}][fecha_vencimiento]" class="form-control"></td>
         <td><button type="button" class="btn-remove-row" title="Eliminar">✕</button></td>
     `;
     tbody.appendChild(tr);

@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DespachoItem extends Model
 {
     protected $fillable = [
-        'despacho_id', 'producto_id', 'lote', 'cantidad', 'fecha_vencimiento',
+        'despacho_id', 'producto_id', 'lote', 'cantidad',
     ];
 
     protected $casts = [
-        'fecha_vencimiento' => 'date',
-        'cantidad'          => 'integer',
+        'cantidad' => 'integer',
     ];
 
     public function despacho(): BelongsTo

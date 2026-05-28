@@ -57,7 +57,6 @@ class DespachoController extends Controller
             'items.*.producto_id'         => 'required|exists:productos,id',
             'items.*.lote'                => 'required|string|max:50',
             'items.*.cantidad'            => 'required|integer|min:1',
-            'items.*.fecha_vencimiento'   => 'required|date|after:today',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -82,7 +81,6 @@ class DespachoController extends Controller
                     'producto_id'      => $item['producto_id'],
                     'lote'             => $item['lote'],
                     'cantidad'         => $item['cantidad'],
-                    'fecha_vencimiento'=> $item['fecha_vencimiento'],
                 ]);
             }
         });
@@ -119,7 +117,6 @@ class DespachoController extends Controller
             'items.*.producto_id'         => 'required|exists:productos,id',
             'items.*.lote'                => 'required|string|max:50',
             'items.*.cantidad'            => 'required|integer|min:1',
-            'items.*.fecha_vencimiento'   => 'required|date',
         ]);
 
         DB::transaction(function () use ($request, $despacho) {
@@ -149,7 +146,6 @@ class DespachoController extends Controller
                     'producto_id'       => $item['producto_id'],
                     'lote'              => $item['lote'],
                     'cantidad'          => $item['cantidad'],
-                    'fecha_vencimiento' => $item['fecha_vencimiento'],
                 ]);
             }
         });
@@ -190,7 +186,7 @@ class DespachoController extends Controller
         $sheet->setTitle('Libro Psicotrópicos');
 
         // Título
-        $sheet->mergeCells('A1:N1');
+        $sheet->mergeCells('A1:O1');
         $sheet->setCellValue('A1', 'LIBRO DE CONTROL DE PSICOTRÓPICOS — ' . config('app.name'));
         $sheet->getStyle('A1')->applyFromArray([
             'font'      => ['bold' => true, 'size' => 14, 'color' => ['rgb' => 'FFFFFF']],
@@ -215,12 +211,13 @@ class DespachoController extends Controller
             'ENTRADA',
             'SALIDA',
             'SALDO',
+            'Columna3',
         ];
         foreach ($headers as $i => $h) {
             $col = chr(65 + $i);
             $sheet->setCellValue("{$col}2", $h);
         }
-        $sheet->getStyle('A2:N2')->applyFromArray([
+        $sheet->getStyle('A2:O2')->applyFromArray([
             'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '6366F1']],
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
@@ -257,9 +254,10 @@ class DespachoController extends Controller
                 $sheet->setCellValue("L{$row}", $entrada);
                 $sheet->setCellValue("M{$row}", $salida);
                 $sheet->setCellValue("N{$row}", $saldo);
+                $sheet->setCellValue("O{$row}", '');
 
                 if ($row % 2 === 0) {
-                    $sheet->getStyle("A{$row}:N{$row}")->applyFromArray([
+                    $sheet->getStyle("A{$row}:O{$row}")->applyFromArray([
                         'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'EEF2FF']],
                     ]);
                 }
@@ -267,7 +265,7 @@ class DespachoController extends Controller
             }
         }
 
-        foreach (range('A', 'N') as $col) {
+        foreach (range('A', 'O') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -289,7 +287,7 @@ class DespachoController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Despacho');
 
-        $sheet->mergeCells('A1:G1');
+        $sheet->mergeCells('A1:E1');
         $sheet->setCellValue('A1', 'DESPACHO — ' . $despacho->numero_factura);
         $sheet->getStyle('A1')->applyFromArray([
             'font'      => ['bold' => true, 'size' => 13, 'color' => ['rgb' => 'FFFFFF']],
@@ -313,12 +311,12 @@ class DespachoController extends Controller
         }
 
         $r++;
-        $headers = ['Producto', 'Concentración', 'Presentación', 'Lote', 'Cantidad', 'Vencimiento'];
+        $headers = ['Producto', 'Concentración', 'Presentación', 'Lote', 'Cantidad'];
         foreach ($headers as $i => $h) {
             $col = chr(65 + $i);
             $sheet->setCellValue("{$col}{$r}", $h);
         }
-        $sheet->getStyle("A{$r}:F{$r}")->applyFromArray([
+        $sheet->getStyle("A{$r}:E{$r}")->applyFromArray([
             'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '6366F1']],
         ]);
@@ -330,11 +328,10 @@ class DespachoController extends Controller
             $sheet->setCellValue("C{$r}", $item->producto->presentacion);
             $sheet->setCellValue("D{$r}", $item->lote);
             $sheet->setCellValue("E{$r}", $item->cantidad);
-            $sheet->setCellValue("F{$r}", $item->fecha_vencimiento->format('d/m/Y'));
             $r++;
         }
 
-        foreach (range('A', 'G') as $col) {
+        foreach (range('A', 'E') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 

@@ -89,7 +89,6 @@
                         <th style="min-width:100px;">Concentración</th>
                         <th style="min-width:120px;">Lote *</th>
                         <th style="min-width:90px;">Cantidad *</th>
-                        <th style="min-width:140px;">Vencimiento *</th>
                         <th style="width:50px;"></th>
                     </tr>
                 </thead>
@@ -99,7 +98,6 @@
                             'producto_id'       => $i->producto_id,
                             'lote'              => $i->lote,
                             'cantidad'          => $i->cantidad,
-                            'fecha_vencimiento' => $i->fecha_vencimiento->format('Y-m-d'),
                         ])->toArray();
                     @endphp
                     @foreach($editItems as $i => $item)
@@ -121,7 +119,6 @@
                         <td><input type="text" name="items[{{ $i }}][concentracion_display]" class="form-control concentracion-field" readonly placeholder="Auto"></td>
                         <td><input type="text" name="items[{{ $i }}][lote]" class="form-control" value="{{ $item['lote'] ?? '' }}" placeholder="L2024001"></td>
                         <td><input type="number" name="items[{{ $i }}][cantidad]" class="form-control" value="{{ $item['cantidad'] ?? '' }}" min="1"></td>
-                        <td><input type="date" name="items[{{ $i }}][fecha_vencimiento]" class="form-control" value="{{ $item['fecha_vencimiento'] ?? '' }}"></td>
                         <td><button type="button" class="btn-remove-row">✕</button></td>
                     </tr>
                     @endforeach
@@ -188,7 +185,6 @@ document.getElementById('btn-add-row').addEventListener('click', function () {
         <td><input type="text" name="items[${rowIndex}][concentracion_display]" class="form-control concentracion-field" readonly placeholder="Auto"></td>
         <td><input type="text" name="items[${rowIndex}][lote]" class="form-control" placeholder="L2024001"></td>
         <td><input type="number" name="items[${rowIndex}][cantidad]" class="form-control" min="1"></td>
-        <td><input type="date" name="items[${rowIndex}][fecha_vencimiento]" class="form-control"></td>
         <td><button type="button" class="btn-remove-row">✕</button></td>
     `;
     tbody.appendChild(tr);
