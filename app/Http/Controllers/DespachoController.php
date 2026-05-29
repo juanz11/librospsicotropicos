@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class DespachoController extends Controller
 {
@@ -190,7 +191,7 @@ class DespachoController extends Controller
         $sheet->setCellValue('A1', 'LIBRO DE CONTROL DE PSICOTRÓPICOS — ' . config('app.name'));
         $sheet->getStyle('A1')->applyFromArray([
             'font'      => ['bold' => true, 'size' => 14, 'color' => ['rgb' => 'FFFFFF']],
-            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4F46E5']],
+            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '2B5797']],
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
         ]);
         $sheet->getRowDimension(1)->setRowHeight(28);
@@ -219,10 +220,11 @@ class DespachoController extends Controller
         }
         $sheet->getStyle('A2:O2')->applyFromArray([
             'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
-            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '6366F1']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '2B5797']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
             'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'FFFFFF']]],
         ]);
+        $sheet->getRowDimension(2)->setRowHeight(22);
 
         $row = 3;
         $saldo = 0;
@@ -256,13 +258,26 @@ class DespachoController extends Controller
                 $sheet->setCellValue("N{$row}", $saldo);
                 $sheet->setCellValue("O{$row}", '');
 
-                if ($row % 2 === 0) {
-                    $sheet->getStyle("A{$row}:O{$row}")->applyFromArray([
-                        'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'EEF2FF']],
-                    ]);
-                }
+                // Alineación
+                $sheet->getStyle("A{$row}:J{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyle("G{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+                $sheet->getStyle("K{$row}:N{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+
                 $row++;
             }
+        }
+
+        // Formato numérico con separador de miles (sin decimales)
+        $sheet->getStyle("K3:N" . ($row - 1))->getNumberFormat()->setFormatCode('#,##0');
+
+        // Bordes delgados grises en toda la tabla de datos
+        $lastRow = $row - 1;
+        if ($lastRow >= 3) {
+            $sheet->getStyle("A2:O{$lastRow}")->applyFromArray([
+                'borders' => [
+                    'allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'BFBFBF']],
+                ],
+            ]);
         }
 
         foreach (range('A', 'O') as $col) {
