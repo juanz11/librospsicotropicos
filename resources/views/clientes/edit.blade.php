@@ -72,6 +72,69 @@
                     </div>
                 @endif
             </div>
+
+            <div class="form-group">
+                <label class="form-label">Cédula del regente (archivo)</label>
+                <input type="file" name="cedula_regente_archivo" class="form-control {{ $errors->has('cedula_regente_archivo') ? 'is-invalid' : '' }}">
+                @error('cedula_regente_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @if($cliente->cedula_regente_archivo)
+                    <div style="margin-top:.25rem;">
+                        <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$cliente, 'cedula_regente']) }}">Descargar</a>
+                    </div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Título farmacéutico (archivo)</label>
+                <input type="file" name="titulo_farmaceutico_archivo" class="form-control {{ $errors->has('titulo_farmaceutico_archivo') ? 'is-invalid' : '' }}">
+                @error('titulo_farmaceutico_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @if($cliente->titulo_farmaceutico_archivo)
+                    <div style="margin-top:.25rem;">
+                        <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$cliente, 'titulo_farmaceutico']) }}">Descargar</a>
+                    </div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Última relación psicotrópica (archivo)</label>
+                <input type="file" name="ultima_relacion_psicotropica_archivo" class="form-control {{ $errors->has('ultima_relacion_psicotropica_archivo') ? 'is-invalid' : '' }}">
+                @error('ultima_relacion_psicotropica_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @if($cliente->ultima_relacion_psicotropica_archivo)
+                    <div style="margin-top:.25rem;">
+                        <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$cliente, 'ultima_relacion_psicotropica']) }}">Descargar</a>
+                    </div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Carta de solicitud (archivo)</label>
+                <input type="file" name="carta_solicitud_archivo" class="form-control {{ $errors->has('carta_solicitud_archivo') ? 'is-invalid' : '' }}">
+                @error('carta_solicitud_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @if($cliente->carta_solicitud_archivo)
+                    <div style="margin-top:.25rem;">
+                        <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$cliente, 'carta_solicitud']) }}">Descargar</a>
+                    </div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Cédula del farmacéutico regente</label>
+                <input type="text" name="cedula_farmaceutico_regente" value="{{ old('cedula_farmaceutico_regente', $cliente->cedula_farmaceutico_regente) }}"
+                    class="form-control {{ $errors->has('cedula_farmaceutico_regente') ? 'is-invalid' : '' }}">
+                @error('cedula_farmaceutico_regente')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Orden de compra (archivo)</label>
+                <input type="file" name="orden_compra_archivo" class="form-control {{ $errors->has('orden_compra_archivo') ? 'is-invalid' : '' }}">
+                @error('orden_compra_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @if($cliente->orden_compra_archivo)
+                    <div style="margin-top:.25rem;">
+                        <a class="btn btn-secondary btn-sm" href="{{ route('clientes.documento', [$cliente, 'orden_compra']) }}">Descargar</a>
+                    </div>
+                @endif
+            </div>
+
             <div class="form-group" style="grid-column:1/-1;">
                 <label class="form-label">Dirección</label>
                 <textarea name="direccion" rows="2" class="form-control">{{ old('direccion', $cliente->direccion) }}</textarea>

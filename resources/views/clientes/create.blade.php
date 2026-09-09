@@ -19,7 +19,7 @@
                 @error('nombre')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="form-group">
-                <label class="form-label">RIF <span style="color:red">*</span></label>
+                <label class="form-label">RIF del cliente <span style="color:red">*</span></label>
                 <input type="text" name="rif" value="{{ old('rif') }}"
                     class="form-control {{ $errors->has('rif') ? 'is-invalid' : '' }}" placeholder="J-12345678-9">
                 @error('rif')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -57,6 +57,44 @@
                 <input type="file" name="permiso_instalacion_archivo" class="form-control {{ $errors->has('permiso_instalacion_archivo') ? 'is-invalid' : '' }}">
                 @error('permiso_instalacion_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
+
+            <div class="form-group">
+                <label class="form-label">Cédula del regente (archivo)</label>
+                <input type="file" name="cedula_regente_archivo" class="form-control {{ $errors->has('cedula_regente_archivo') ? 'is-invalid' : '' }}">
+                @error('cedula_regente_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Título farmacéutico (archivo)</label>
+                <input type="file" name="titulo_farmaceutico_archivo" class="form-control {{ $errors->has('titulo_farmaceutico_archivo') ? 'is-invalid' : '' }}">
+                @error('titulo_farmaceutico_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Última relación psicotrópica (archivo)</label>
+                <input type="file" name="ultima_relacion_psicotropica_archivo" class="form-control {{ $errors->has('ultima_relacion_psicotropica_archivo') ? 'is-invalid' : '' }}">
+                @error('ultima_relacion_psicotropica_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Carta de solicitud (archivo)</label>
+                <input type="file" name="carta_solicitud_archivo" class="form-control {{ $errors->has('carta_solicitud_archivo') ? 'is-invalid' : '' }}">
+                @error('carta_solicitud_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Cédula del farmacéutico regente</label>
+                <input type="text" name="cedula_farmaceutico_regente" value="{{ old('cedula_farmaceutico_regente') }}"
+                    class="form-control {{ $errors->has('cedula_farmaceutico_regente') ? 'is-invalid' : '' }}" placeholder="V-12345678">
+                @error('cedula_farmaceutico_regente')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Orden de compra (archivo)</label>
+                <input type="file" name="orden_compra_archivo" class="form-control {{ $errors->has('orden_compra_archivo') ? 'is-invalid' : '' }}">
+                @error('orden_compra_archivo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
             <div class="form-group" style="grid-column:1/-1;">
                 <label class="form-label">Dirección</label>
                 <textarea name="direccion" rows="2" class="form-control" placeholder="Av. Principal...">{{ old('direccion') }}</textarea>

@@ -11,6 +11,9 @@ class Cliente extends Model
         'nombre', 'rif', 'direccion', 'telefono',
         'email', 'sicm', 'activo',
         'rif_archivo', 'factura_archivo', 'permiso_instalacion_archivo',
+        'cedula_regente_archivo', 'titulo_farmaceutico_archivo',
+        'ultima_relacion_psicotropica_archivo', 'carta_solicitud_archivo',
+        'cedula_farmaceutico_regente', 'orden_compra_archivo',
     ];
 
     protected $casts = [

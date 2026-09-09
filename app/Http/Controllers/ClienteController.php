@@ -36,6 +36,12 @@ class ClienteController extends Controller
             'rif_archivo'       => 'nullable|file|max:5120',
             'factura_archivo'   => 'nullable|file|max:5120',
             'permiso_instalacion_archivo' => 'nullable|file|max:5120',
+            'cedula_regente_archivo' => 'nullable|file|max:5120',
+            'titulo_farmaceutico_archivo' => 'nullable|file|max:5120',
+            'ultima_relacion_psicotropica_archivo' => 'nullable|file|max:5120',
+            'carta_solicitud_archivo' => 'nullable|file|max:5120',
+            'cedula_farmaceutico_regente' => 'nullable|string|max:20',
+            'orden_compra_archivo' => 'nullable|file|max:5120',
             'activo'            => 'boolean',
         ]);
 
@@ -49,6 +55,21 @@ class ClienteController extends Controller
         }
         if ($request->hasFile('permiso_instalacion_archivo')) {
             $data['permiso_instalacion_archivo'] = $request->file('permiso_instalacion_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('cedula_regente_archivo')) {
+            $data['cedula_regente_archivo'] = $request->file('cedula_regente_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('titulo_farmaceutico_archivo')) {
+            $data['titulo_farmaceutico_archivo'] = $request->file('titulo_farmaceutico_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('ultima_relacion_psicotropica_archivo')) {
+            $data['ultima_relacion_psicotropica_archivo'] = $request->file('ultima_relacion_psicotropica_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('carta_solicitud_archivo')) {
+            $data['carta_solicitud_archivo'] = $request->file('carta_solicitud_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('orden_compra_archivo')) {
+            $data['orden_compra_archivo'] = $request->file('orden_compra_archivo')->store('clientes', 'local');
         }
 
         Cliente::create($data);
@@ -74,6 +95,12 @@ class ClienteController extends Controller
             'rif_archivo'       => 'nullable|file|max:5120',
             'factura_archivo'   => 'nullable|file|max:5120',
             'permiso_instalacion_archivo' => 'nullable|file|max:5120',
+            'cedula_regente_archivo' => 'nullable|file|max:5120',
+            'titulo_farmaceutico_archivo' => 'nullable|file|max:5120',
+            'ultima_relacion_psicotropica_archivo' => 'nullable|file|max:5120',
+            'carta_solicitud_archivo' => 'nullable|file|max:5120',
+            'cedula_farmaceutico_regente' => 'nullable|string|max:20',
+            'orden_compra_archivo' => 'nullable|file|max:5120',
         ]);
 
         $data['activo'] = $request->boolean('activo');
@@ -95,6 +122,36 @@ class ClienteController extends Controller
                 Storage::disk('local')->delete($cliente->permiso_instalacion_archivo);
             }
             $data['permiso_instalacion_archivo'] = $request->file('permiso_instalacion_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('cedula_regente_archivo')) {
+            if ($cliente->cedula_regente_archivo) {
+                Storage::disk('local')->delete($cliente->cedula_regente_archivo);
+            }
+            $data['cedula_regente_archivo'] = $request->file('cedula_regente_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('titulo_farmaceutico_archivo')) {
+            if ($cliente->titulo_farmaceutico_archivo) {
+                Storage::disk('local')->delete($cliente->titulo_farmaceutico_archivo);
+            }
+            $data['titulo_farmaceutico_archivo'] = $request->file('titulo_farmaceutico_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('ultima_relacion_psicotropica_archivo')) {
+            if ($cliente->ultima_relacion_psicotropica_archivo) {
+                Storage::disk('local')->delete($cliente->ultima_relacion_psicotropica_archivo);
+            }
+            $data['ultima_relacion_psicotropica_archivo'] = $request->file('ultima_relacion_psicotropica_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('carta_solicitud_archivo')) {
+            if ($cliente->carta_solicitud_archivo) {
+                Storage::disk('local')->delete($cliente->carta_solicitud_archivo);
+            }
+            $data['carta_solicitud_archivo'] = $request->file('carta_solicitud_archivo')->store('clientes', 'local');
+        }
+        if ($request->hasFile('orden_compra_archivo')) {
+            if ($cliente->orden_compra_archivo) {
+                Storage::disk('local')->delete($cliente->orden_compra_archivo);
+            }
+            $data['orden_compra_archivo'] = $request->file('orden_compra_archivo')->store('clientes', 'local');
         }
 
         $cliente->update($data);
@@ -118,6 +175,21 @@ class ClienteController extends Controller
         if ($cliente->permiso_instalacion_archivo) {
             Storage::disk('local')->delete($cliente->permiso_instalacion_archivo);
         }
+        if ($cliente->cedula_regente_archivo) {
+            Storage::disk('local')->delete($cliente->cedula_regente_archivo);
+        }
+        if ($cliente->titulo_farmaceutico_archivo) {
+            Storage::disk('local')->delete($cliente->titulo_farmaceutico_archivo);
+        }
+        if ($cliente->ultima_relacion_psicotropica_archivo) {
+            Storage::disk('local')->delete($cliente->ultima_relacion_psicotropica_archivo);
+        }
+        if ($cliente->carta_solicitud_archivo) {
+            Storage::disk('local')->delete($cliente->carta_solicitud_archivo);
+        }
+        if ($cliente->orden_compra_archivo) {
+            Storage::disk('local')->delete($cliente->orden_compra_archivo);
+        }
 
         $cliente->delete();
 
@@ -131,6 +203,11 @@ class ClienteController extends Controller
             'rif' => 'rif_archivo',
             'factura' => 'factura_archivo',
             'permiso_instalacion' => 'permiso_instalacion_archivo',
+            'cedula_regente' => 'cedula_regente_archivo',
+            'titulo_farmaceutico' => 'titulo_farmaceutico_archivo',
+            'ultima_relacion_psicotropica' => 'ultima_relacion_psicotropica_archivo',
+            'carta_solicitud' => 'carta_solicitud_archivo',
+            'orden_compra' => 'orden_compra_archivo',
         ];
 
         abort_unless(isset($map[$tipo]), 404);
